@@ -18,6 +18,10 @@ TEST(BoardDataTest, ProperCreationSize)
     ASSERT_EQ(10, data.canBePlacedIn.size());
     ASSERT_EQ(9, data.canBePlacedIn[0].size());
     ASSERT_EQ(9, data.canBePlacedIn[0][0].size());
+    
+    ASSERT_EQ(10, data.numberPlacedInBox.size());
+    ASSERT_EQ(9, data.numberPlacedInBox[0].size());
+    ASSERT_EQ(9, data.numberPlacedInBox[0][0].size());
 }
 
 
@@ -35,7 +39,7 @@ TEST(BoardDataTest, ProperCreationBoard)
 
 
 
-TEST(BoardDataTest, ProperCreationCanBePlaced)
+TEST(BoardDataTest, ExtraData)
 {
     int boxSize = 3;
     BoardData data;
@@ -45,4 +49,9 @@ TEST(BoardDataTest, ProperCreationCanBePlaced)
         for (int x = 0; x < boxSize * boxSize; ++x)
             for (int y = 0; y < boxSize * boxSize; ++y)
                 ASSERT_TRUE(data.canBePlacedIn[num][x][y]);
+
+    for (int num = 1; num < 10; ++num)
+        for (int x = 0; x < boxSize * boxSize; ++x)
+            for (int y = 0; y < boxSize * boxSize; ++y)
+                ASSERT_FALSE(data.numberPlacedInBox[num][x][y]);
 }

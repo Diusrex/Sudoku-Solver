@@ -14,6 +14,7 @@ void BoardInformation::BoardData::SetUp(size_t newBoxSize)
     boardSize = boxSize * boxSize;
     board.resize(boardSize, vector<int>(boardSize, 0));
     canBePlacedIn.resize(boardSize + 1, vector<vector<bool>>(boardSize, vector<bool>(boardSize, true)));
+    numberPlacedInBox.resize(boardSize + 1, vector<vector<bool>>(boardSize, vector<bool>(boardSize, false)));
 }
 
 

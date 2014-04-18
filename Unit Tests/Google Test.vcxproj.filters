@@ -23,7 +23,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Google Test.cpp">
+    <ClCompile Include="Board Data Tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Standard Checks Tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loading Board Tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Google Test", "..\Unit Tests\Google Test.vcxproj", "{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sudoku", "..\Sudoku\Sudoku.vcxproj", "{31168EA5-4A10-4D28-B68B-429E69717986}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sudoku Implementation", "..\Sudoku Implementation\Sudoku Implementation.vcxproj", "{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|ARM = Release|ARM
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Debug|ARM.ActiveCfg = Debug|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Debug|Win32.Build.0 = Debug|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Debug|x64.ActiveCfg = Debug|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Release|ARM.ActiveCfg = Release|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Release|Win32.ActiveCfg = Release|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Release|Win32.Build.0 = Release|Win32
+		{3FB49A79-1A48-4602-B9C1-A0FA2A2C169F}.Release|x64.ActiveCfg = Release|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Debug|ARM.ActiveCfg = Debug|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Debug|Win32.ActiveCfg = Debug|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Debug|Win32.Build.0 = Debug|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Debug|x64.ActiveCfg = Debug|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Release|ARM.ActiveCfg = Release|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Release|Win32.ActiveCfg = Release|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Release|Win32.Build.0 = Release|Win32
+		{31168EA5-4A10-4D28-B68B-429E69717986}.Release|x64.ActiveCfg = Release|Win32
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Debug|ARM.ActiveCfg = Debug|ARM
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Debug|ARM.Build.0 = Debug|ARM
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Debug|Win32.Build.0 = Debug|Win32
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Debug|x64.ActiveCfg = Debug|x64
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Debug|x64.Build.0 = Debug|x64
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Release|ARM.ActiveCfg = Release|ARM
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Release|ARM.Build.0 = Release|ARM
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Release|Win32.ActiveCfg = Release|Win32
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Release|Win32.Build.0 = Release|Win32
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Release|x64.ActiveCfg = Release|x64
+		{5EFE722B-6653-4998-B00A-CBFE4AB2AC06}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

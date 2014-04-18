@@ -28,9 +28,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Board Data.cpp" />
+    <ClCompile Include="Code\Load Board.cpp" />
+    <ClCompile Include="Code\Standard Checks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Board Data.h" />
+    <ClInclude Include="Code\Load Board.h" />
+    <ClInclude Include="Code\Standard Checks.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5efe722b-6653-4998-b00a-cbfe4ab2ac06}</ProjectGuid>
@@ -121,6 +125,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

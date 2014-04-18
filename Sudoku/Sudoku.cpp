@@ -5,7 +5,7 @@
 
 int main()
 {
-    BoardData data;
+    BoardInformation::BoardData data;
     data.SetUp(3);
     data.PrintOut();
 

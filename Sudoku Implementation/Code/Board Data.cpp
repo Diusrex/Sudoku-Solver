@@ -8,16 +8,17 @@ using namespace std;
 
 
 
-void BoardData::SetUp(size_t newBoxSize)
+void BoardInformation::BoardData::SetUp(size_t newBoxSize)
 {
     boxSize = newBoxSize;
     boardSize = boxSize * boxSize;
     board.resize(boardSize, vector<int>(boardSize, 0));
+    canBePlacedIn.resize(boardSize + 1, vector<vector<bool>>(boardSize, vector<bool>(boardSize, true)));
 }
 
 
 
-void BoardData::PrintOut() const
+void BoardInformation::BoardData::PrintOut() const
 {
     cout << "\n\n";
     cout << "   0 1 2   3 4 5   6 7 8\n"

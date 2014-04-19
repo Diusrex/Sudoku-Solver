@@ -18,6 +18,8 @@ void StandardAlgorithm::Solve(BoardInformation::BoardData &board)
         changed = CheckSingleOptions(board) || changed;
 
         changed = CheckRowAndColumnOptions(board) || changed;
+
+        changed = CheckSectionOptions(board) || changed;
     }
 
     // Will try to guess a spot (but only if it still possible)
@@ -96,3 +98,38 @@ bool StandardAlgorithm::CheckRowAndColumnOptions(BoardInformation::BoardData &bo
     return changed;
 }
 
+
+
+
+
+bool StandardAlgorithm::CheckSectionOptions(BoardInformation::BoardData &board)
+{
+    bool changed = false;
+
+    for (size_t sectionX = 0; sectionX < board.boxSize; ++sectionX)
+    {
+        for (size_t sectionY = 0; sectionY < board.boxSize; ++sectionY)
+        {
+            std::vector<std::pair<size_t, size_t>> positionInSection(board.boardSize + 1);
+            std::vector<bool> singleOccuranceInSection(board.boardSize + 1);
+
+            BoardInformation::GetSectionOnlyPossible(board, sectionX, sectionY, positionInSection, singleOccuranceInSection);
+
+            for (size_t num = 1; num <= board.boardSize; ++num)
+            {
+                if (singleOccuranceInSection[num])
+                {
+                    size_t x = sectionX * board.boxSize + positionInSection[num].first;
+                    size_t y = sectionY * board.boxSize + positionInSection[num].second;
+
+                    board.board[x][y] = num;
+                    BoardInformation::UpdatePossibleSpots(board, num, x, y);
+
+                    changed = true;
+                }
+            }
+        }
+    }
+
+    return changed;
+}

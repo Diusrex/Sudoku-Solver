@@ -166,3 +166,42 @@ TEST(StandardAlgorithmTests, RowAndColumnSingleTest)
 
     ASSERT_EQ(4, board.board[0][8]);
 }
+
+
+
+
+TEST(StandardAlgorithmTests, SectionBasicTest)
+{
+    BoardData board;
+
+    // If either of these are false, then no poin in continuing
+    ASSERT_TRUE(LoadBoard(board, "unsolved_section", "../../Unit Tests/examples.txt"));
+    
+    StandardAlgorithm algo;
+
+    ASSERT_TRUE(algo.BeginSolving(board));
+    
+    // Is one of a few guaranteed spots
+    ASSERT_EQ(1, board.board[0][0]); 
+    ASSERT_EQ(2, board.board[2][2]);
+    ASSERT_EQ(3, board.board[2][0]);
+}
+
+
+
+TEST(StandardAlgorithmTests, SectionOffsetTest)
+{
+    BoardData board;
+
+    // If either of these are false, then no poin in continuing
+    ASSERT_TRUE(LoadBoard(board, "unsolved_section_offset", "../../Unit Tests/examples.txt"));
+    
+    StandardAlgorithm algo;
+
+    ASSERT_TRUE(algo.BeginSolving(board));
+
+    // Is one of a few guaranteed spots
+    ASSERT_EQ(1, board.board[5][5]);
+    ASSERT_EQ(2, board.board[3][5]);
+    ASSERT_EQ(3, board.board[3][4]);
+}

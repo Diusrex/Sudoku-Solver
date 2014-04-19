@@ -129,3 +129,47 @@ void BoardInformation::GetRowAndColumnOnlyPossible(const BoardData & board, cons
         }
     }
 }
+
+
+
+
+
+void BoardInformation::GetSectionOnlyPossible(const BoardData & board, const size_t sectionX, const size_t sectionY, std::vector<std::pair<size_t, size_t>>& positionInSection, std::vector<bool>& singleOccuranceInSection)
+{
+    size_t xOffset = sectionX * board.boxSize;
+    size_t yOffset = sectionY * board.boxSize;
+
+    for (size_t num = 1; num <= board.boardSize; ++num)
+    {
+        singleOccuranceInSection[num] = false;
+
+        // Only matters if the number can be placed in
+        if (!board.numberPlacedInSection[num][sectionX][sectionY])
+        {
+            bool multipleOccurances = false;
+
+            for (size_t x = 0; x < board.boxSize; ++x)
+            {
+                for (size_t y = 0; y < board.boxSize; ++y)
+                {
+                    if (board.canBePlacedIn[num][xOffset + x][yOffset + y])
+                    {
+                        if (singleOccuranceInSection[num])
+                        {
+                            multipleOccurances = true;
+                            singleOccuranceInSection[num] = false;
+                        }
+
+                        else if (!multipleOccurances)
+                        {
+                            singleOccuranceInSection[num] = true;
+                            positionInSection[num].first = x;
+                            positionInSection[num].second = y;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

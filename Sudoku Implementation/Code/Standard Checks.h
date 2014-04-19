@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 
 namespace BoardInformation {
 
@@ -19,5 +20,9 @@ namespace BoardInformation {
 
     // The row/columnOnlyPos only will be of size board.boardSize + 1, and will store where each line may only go.
     // Does not matter what is stored in each container
-    void GetRowAndColumnOnlyPossible(const BoardData & board, const size_t linePos, std::vector<int>& rowOnlyPos, std::vector<bool>& singleRowPos, std::vector<int>& columnOnlyPos, std::vector<bool>& singleColumnPos);
+    void GetRowAndColumnOnlyPossible(const BoardData & board, const size_t linePos, std::vector<int>& rowOnlyPos, std::vector<bool>& singleOccuranceInRow, std::vector<int>& columnOnlyPos, std::vector<bool>& singleOccuranceInColumn);
+
+    // positionInSection and singleOccuranceInSection should be of size board.boardSize + 1
+    // positionInSection will be .first == relativeX, .second == relativeY for each number.
+    void GetSectionOnlyPossible(const BoardData & board, const size_t sectionX, const size_t sectionY, std::vector<std::pair<size_t, size_t>>& positionInSection, std::vector<bool>& singleOccuranceInSection);
 }

@@ -18,6 +18,9 @@
     <ClInclude Include="Code\Load Board.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Base Algorithm.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Board Data.cpp">
@@ -27,6 +30,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Code\Load Board.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Base Algorithm.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,7 +6,7 @@
 int main()
 {
     BoardInformation::BoardData data;
-    data.SetUp(3);
+    data.SetUpSizes(3);
     data.PrintOut();
 
     int temp;

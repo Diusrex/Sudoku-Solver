@@ -100,7 +100,7 @@ bool BoardInformation::LoadBoard(BoardData& board, const std::string& wanted, co
             {
                 int boxSize;
                 file >> boxSize;
-                board.SetUp(boxSize);
+                board.SetUpSizes(boxSize);
 
                 for (size_t y = 0; y < board.boardSize; ++y)
                 {

@@ -85,6 +85,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Base Algorithm Tests.cpp" />
     <ClCompile Include="Board Data Tests.cpp" />
     <ClCompile Include="Loading Board Tests.cpp" />
     <ClCompile Include="Standard Checks Tests.cpp" />

@@ -6,13 +6,10 @@
 
 using namespace BoardInformation;
 
-#include <direct.h>
-#define GetCurrentDir _getcwd
-
 TEST(IsSolvedTests, IsNotSolved)
 {
     BoardData board;
-    board.SetUp(3);
+    board.SetUpSizes(3);
 
     ASSERT_FALSE(IsSolved(board));
 
@@ -40,11 +37,11 @@ TEST(IsSolvedTests, IsSolved)
 
 
 
-TEST(IsImpossibleTests, IsPossible)
+TEST(IsImpossibleTests, IsPossibleTest)
 {
     BoardData board;
 
-    board.SetUp(2);
+    board.SetUpSizes(2);
     ASSERT_FALSE(IsImpossible(board));
 
     // This would represent not being able to be placed in top left, and bottom right of top right box
@@ -56,7 +53,7 @@ TEST(IsImpossibleTests, IsPossible)
     board.canBePlacedIn[2][0][1] = false;
     board.canBePlacedIn[2][1][1] = false;
     board.canBePlacedIn[2][1][0] = false;
-    board.numberPlacedInBox[2][0][0] = true;
+    board.numberPlacedInSection[2][0][0] = true;
 
     ASSERT_FALSE(IsImpossible(board));
 }
@@ -64,11 +61,11 @@ TEST(IsImpossibleTests, IsPossible)
 
 
 
-TEST(IsImpossibleTests, IsImPossible)
+TEST(IsImpossibleTests, IsImpossibleTest)
 {
     BoardData board;
 
-    board.SetUp(2);
+    board.SetUpSizes(2);
 
     // This would represent not being able to be placed in top right box
     board.canBePlacedIn[1][0][0] = false;
@@ -77,3 +74,5 @@ TEST(IsImpossibleTests, IsImPossible)
     board.canBePlacedIn[1][1][1] = false;
     ASSERT_TRUE(IsImpossible(board));
 }
+
+

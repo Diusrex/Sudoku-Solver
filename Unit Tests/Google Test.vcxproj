@@ -88,6 +88,7 @@
     <ClCompile Include="Base Algorithm Tests.cpp" />
     <ClCompile Include="Board Data Tests.cpp" />
     <ClCompile Include="Loading Board Tests.cpp" />
+    <ClCompile Include="Standard Algorithm Tests.cpp" />
     <ClCompile Include="Standard Checks Tests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

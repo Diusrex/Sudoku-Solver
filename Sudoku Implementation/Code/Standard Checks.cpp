@@ -28,7 +28,7 @@ bool BoardInformation::IsImpossible(const BoardData & board)
         {
             for (size_t boxY = 0; boxY < board.boardSize / board.boxSize; ++boxY)
             {
-                if (!board.numberPlacedInBox[num][boxX][boxY])
+                if (!board.numberPlacedInSection[num][boxX][boxY])
                 {
                     bool atLeastOneSpot = false;
 
@@ -55,4 +55,26 @@ bool BoardInformation::IsImpossible(const BoardData & board)
     }
 
     return false;
+}
+
+
+
+
+size_t BoardInformation::GetOnlyNumberCanBePlaced(const BoardData & board, size_t x, size_t y)
+{
+    size_t num = 0;
+
+    for (size_t currentNumber = 1; currentNumber <= board.boardSize; ++currentNumber)
+    {
+        if (board.canBePlacedIn[currentNumber][x][y])
+        {
+            // Another number could be placed
+            if (num)
+                return 0;
+
+            num = currentNumber;
+        }
+    }
+
+    return num;
 }

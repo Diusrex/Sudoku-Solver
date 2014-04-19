@@ -14,7 +14,7 @@ TEST(IsSolvedTests, IsNotSolved)
     ASSERT_FALSE(IsSolved(board));
 
     // No point in the test continuing if this is false
-    ASSERT_TRUE(LoadBoard(board, "unsolved", "../../Unit Tests/examples.txt")) << "The file 'examples.txt' does not contain the board 'unsolved'";
+    ASSERT_TRUE(LoadBoard(board, "unsolved_basic", "../../Unit Tests/examples.txt")) << "The file 'examples.txt' does not contain the board 'unsolved'";
 
     ASSERT_FALSE(IsSolved(board));
 }
@@ -76,3 +76,48 @@ TEST(IsImpossibleTests, IsImpossibleTest)
 }
 
 
+
+
+TEST(GetOnlyNumberCanBePlacedTests, OneExists)
+{
+    BoardData board;
+
+    board.SetUpSizes(2);
+
+    board.canBePlacedIn[1][0][0] = false;
+    board.canBePlacedIn[2][0][0] = false;
+    board.canBePlacedIn[3][0][0] = false;
+
+    ASSERT_EQ(4, GetOnlyNumberCanBePlaced(board, 0, 0));
+}
+
+
+
+TEST(GetOnlyNumberCanBePlacedTests, MultipleOptions)
+{
+    BoardData board;
+
+    board.SetUpSizes(2);
+
+    board.canBePlacedIn[1][0][0] = false;
+    board.canBePlacedIn[2][0][0] = false;
+
+    ASSERT_EQ(0, GetOnlyNumberCanBePlaced(board, 0, 0));
+}
+
+
+
+
+TEST(GetOnlyNumberCanBePlacedTests, NoOptions)
+{
+    BoardData board;
+
+    board.SetUpSizes(2);
+
+    board.canBePlacedIn[1][0][0] = false;
+    board.canBePlacedIn[2][0][0] = false;
+    board.canBePlacedIn[3][0][0] = false;
+    board.canBePlacedIn[4][0][0] = false;
+
+    ASSERT_EQ(0, GetOnlyNumberCanBePlaced(board, 0, 0));
+}

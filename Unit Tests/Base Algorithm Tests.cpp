@@ -36,7 +36,7 @@ TEST(BaseAlgorithmTests, GuessTester1)
 {
     BoardInformation::BoardData data;
 
-    ASSERT_TRUE(BoardInformation::LoadBoard(data, "guess_tester", "../../Unit Tests/examples.txt"));
+    ASSERT_TRUE(BoardInformation::LoadBoard(data, "unsolved_diagonal", "../../Unit Tests/examples.txt"));
 
     BoardInformation::BoardData dataCopy = data;
     AlgorithmTester tester;
@@ -70,7 +70,7 @@ TEST(BaseAlgorithmTests, GuessTester2)
 {
     BoardInformation::BoardData data;
 
-    ASSERT_TRUE(BoardInformation::LoadBoard(data, "guess_tester_diff", "../../Unit Tests/examples.txt"));
+    ASSERT_TRUE(BoardInformation::LoadBoard(data, "unsolved_doubleDiagonal", "../../Unit Tests/examples.txt"));
 
     AlgorithmTester tester;
     ASSERT_TRUE(tester.BeginSolving(data));

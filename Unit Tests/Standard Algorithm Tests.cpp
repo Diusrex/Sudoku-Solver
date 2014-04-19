@@ -54,6 +54,9 @@ TEST(StandardAlgorithmTests, SingleSpotTest)
 }
 
 
+
+
+
 TEST(StandardAlgorithmTests, GuessTest)
 {
     BoardData board;
@@ -94,4 +97,72 @@ TEST(StandardAlgorithmTests, GuessTest)
         ASSERT_EQ(3, board.board[2][2]);
         ASSERT_EQ(4, board.board[3][2]);
     }
+}
+
+
+
+
+
+TEST(StandardAlgorithmTests, RowSingleTest)
+{
+    BoardData board;
+
+    ASSERT_TRUE(LoadBoard(board, "unsolved_row", "../../Unit Tests/examples.txt"));
+
+    StandardAlgorithm algo;
+    algo.BeginSolving(board);
+
+    // Much of puzzle will be guessed, but it should still be solved
+    ASSERT_TRUE(IsSolved(board));
+
+    // These two points are forced due to be being only possible row
+    ASSERT_EQ(1, board.board[6][1]);
+
+    ASSERT_EQ(2, board.board[6][0]);
+}
+
+
+
+
+
+TEST(StandardAlgorithmTests, ColumnSingleTest)
+{
+    BoardData board;
+
+    ASSERT_TRUE(LoadBoard(board, "unsolved_column", "../../Unit Tests/examples.txt"));
+
+    StandardAlgorithm algo;
+    algo.BeginSolving(board);
+
+    // Much of puzzle will be guessed, but it should still be solved
+    ASSERT_TRUE(IsSolved(board));
+
+    // These two points are forced due to be being only possible column
+    ASSERT_EQ(3, board.board[1][8]);
+
+    ASSERT_EQ(4, board.board[0][8]);
+}
+
+
+TEST(StandardAlgorithmTests, RowAndColumnSingleTest)
+{
+    BoardData board;
+
+    ASSERT_TRUE(LoadBoard(board, "unsolved_rowAndColumn", "../../Unit Tests/examples.txt"));
+
+    StandardAlgorithm algo;
+    algo.BeginSolving(board);
+
+    // Much of puzzle will be guessed, but it should still be solved
+    ASSERT_TRUE(IsSolved(board));
+
+    // These two points are forced due to be being only possible row
+    ASSERT_EQ(1, board.board[6][1]);
+
+    ASSERT_EQ(2, board.board[6][0]);
+
+    // These two points are forced due to be being only possible column
+    ASSERT_EQ(3, board.board[1][8]);
+
+    ASSERT_EQ(4, board.board[0][8]);
 }

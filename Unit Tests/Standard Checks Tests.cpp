@@ -121,3 +121,97 @@ TEST(GetOnlyNumberCanBePlacedTests, NoOptions)
 
     ASSERT_EQ(0, GetOnlyNumberCanBePlaced(board, 0, 0));
 }
+
+
+// This means should not get anything
+TEST(GetRowAndColumnOnlyPossibleTests, AllAvailable)
+{
+    BoardData board;
+
+    board.SetUpSizes(2);
+
+    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
+    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+
+    GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
+
+    for (size_t num = 1; num <= board.boardSize; ++num)
+    {
+        ASSERT_FALSE(singleOccuranceInRow[num]);
+        ASSERT_FALSE(singleOccuranceInColumn[num]);
+    }
+}
+
+
+
+TEST(GetRowAndColumnOnlyPossibleTests, RowSingleAvailableTests)
+{
+    BoardData board;
+
+    board.SetUpSizes(2);
+
+    // This will mean that the number 1 can only be placed in [3] for the row 0
+    board.canBePlacedIn[1][0][0] = false;
+    board.canBePlacedIn[1][0][1] = false;
+    board.canBePlacedIn[1][0][2] = false;
+
+    // This will mean that the number 2 can only be placed in [0] for the row 0
+    board.canBePlacedIn[2][0][1] = false;
+    board.canBePlacedIn[2][0][2] = false;
+    board.canBePlacedIn[2][0][3] = false;
+
+    // This will mean that the number 3 can only be placed in [1] for the row 0
+    board.canBePlacedIn[3][0][0] = false;
+    board.canBePlacedIn[3][0][2] = false;
+    board.canBePlacedIn[3][0][3] = false;
+
+    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
+    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+
+    GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
+
+    ASSERT_TRUE(singleOccuranceInRow[1]);
+    ASSERT_EQ(3, rowOnlyPos[1]);
+    ASSERT_TRUE(singleOccuranceInRow[2]);
+    ASSERT_EQ(0, rowOnlyPos[2]);
+    ASSERT_TRUE(singleOccuranceInRow[3]);
+    ASSERT_EQ(1, rowOnlyPos[3]);
+
+}
+
+
+
+TEST(GetRowAndColumnOnlyPossibleTests, ColumnSingleAvailableTests)
+{
+    BoardData board;
+
+    board.SetUpSizes(2);
+
+    // This will mean that the number 1 can only be placed in [3] for the column 0
+    board.canBePlacedIn[1][0][0] = false;
+    board.canBePlacedIn[1][1][0] = false;
+    board.canBePlacedIn[1][2][0] = false;
+
+    // This will mean that the number 2 can only be placed in [0] for the column 0
+    board.canBePlacedIn[2][1][0] = false;
+    board.canBePlacedIn[2][2][0] = false;
+    board.canBePlacedIn[2][3][0] = false;
+
+    // This will mean that the number 3 can only be placed in [1] for the column 0
+    board.canBePlacedIn[3][0][0] = false;
+    board.canBePlacedIn[3][2][0] = false;
+    board.canBePlacedIn[3][3][0] = false;
+
+    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
+    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+
+    GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
+
+    ASSERT_TRUE(singleOccuranceInColumn[1]);
+    ASSERT_EQ(3, columnOnlyPos[1]);
+    ASSERT_TRUE(singleOccuranceInColumn[2]);
+    ASSERT_EQ(0, columnOnlyPos[2]);
+    ASSERT_TRUE(singleOccuranceInColumn[3]);
+    ASSERT_EQ(1, columnOnlyPos[3]);
+
+}

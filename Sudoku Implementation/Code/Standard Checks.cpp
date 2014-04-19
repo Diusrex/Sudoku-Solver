@@ -78,3 +78,54 @@ size_t BoardInformation::GetOnlyNumberCanBePlaced(const BoardData & board, size_
 
     return num;
 }
+
+
+
+
+
+
+void BoardInformation::GetRowAndColumnOnlyPossible(const BoardData & board, const size_t linePos, std::vector<int>& rowOnlyPos, std::vector<bool>& singleOccuranceInRow, std::vector<int>& columnOnlyPos, std::vector<bool>& singleOccuranceInColumn)
+{
+    for (size_t num = 1; num <= board.boardSize; ++num)
+    {
+        bool multipleOccurancesInRow = false;
+        bool multipleOccurancesInColumn = false;
+        singleOccuranceInRow[num] = false;
+        singleOccuranceInColumn[num] = false;
+
+        for (size_t otherPos = 0; otherPos < board.boardSize; ++otherPos)
+        {
+            // Row code
+            if (board.canBePlacedIn[num][linePos][otherPos] && !multipleOccurancesInRow)
+            {
+                if (singleOccuranceInRow[num])
+                {
+                    singleOccuranceInRow[num] = false;
+                    multipleOccurancesInRow = true;
+                }
+
+                else
+                {
+                    rowOnlyPos[num] = otherPos;
+                    singleOccuranceInRow[num] = true;
+                }
+            }
+
+
+            // Column code
+            if (board.canBePlacedIn[num][otherPos][linePos] && !multipleOccurancesInColumn)
+            {
+                if (singleOccuranceInColumn[num])
+                {
+                    singleOccuranceInColumn[num] = false;
+                    multipleOccurancesInColumn = true;
+                }
+                else
+                {
+                    columnOnlyPos[num] = otherPos;
+                    singleOccuranceInColumn[num] = true;
+                }
+            }
+        }
+    }
+}

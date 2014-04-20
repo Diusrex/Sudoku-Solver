@@ -7,7 +7,7 @@
 bool Algorithm::BeginSolving(BoardInformation::BoardData & board)
 {
     // This will be false if the board was not valid
-    if (!BoardInformation::SetUpPossibleSpots(board))
+    if (!board.SetUpPossibleSpots())
         return false;
 
     Solve(board);
@@ -18,23 +18,21 @@ bool Algorithm::BeginSolving(BoardInformation::BoardData & board)
 
 void Algorithm::GuessSpot(BoardInformation::BoardData & board)
 {
-    for (size_t x = 0; x < board.boardSize; ++x)
+    for (size_t x = 0; x < board.GetBoardSize(); ++x)
     {
-        for (size_t y = 0; y < board.boardSize; ++y)
+        for (size_t y = 0; y < board.GetBoardSize(); ++y)
         {
-            if (board.board[x][y] == 0)
+            if (board.GetNumberAtPosition(x, y) == 0)
             {
                 // Guess all possible numbers that can be here
-                for (size_t num = 1; num <= board.boardSize; ++num)
+                for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
                 {
-                    if (board.canBePlacedIn[num][x][y])
+                    if (board.GetCanBePlacedAtPosition(x, y, num))
                     {
                         // Need to create copies
                         BoardInformation::BoardData tempBoard = board;
 
-                        tempBoard.board[x][y] = num;
-
-                        UpdatePossibleSpots(tempBoard, num, x, y);
+                        tempBoard.SetBox(x, y, num);
 
                         Solve(tempBoard);
 

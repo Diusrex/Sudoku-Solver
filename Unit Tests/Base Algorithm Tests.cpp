@@ -21,12 +21,18 @@ private:
 TEST(BaseAlgorithmTests, ValidDeterminationTest)
 {
     BoardInformation::BoardData data;
-    data.SetUpSizes(3);
-
-    data.board[0][0] = 1;
-    data.board[0][1] = 1;
-
     AlgorithmTester tester;
+   
+    ASSERT_TRUE(BoardInformation::LoadBoard(data, "invalid_row", "../../Unit Tests/examples.txt"));
+    
+    ASSERT_FALSE(tester.BeginSolving(data));
+
+    ASSERT_TRUE(BoardInformation::LoadBoard(data, "invalid_column", "../../Unit Tests/examples.txt"));
+
+    ASSERT_FALSE(tester.BeginSolving(data));
+
+    ASSERT_TRUE(BoardInformation::LoadBoard(data, "invalid_section", "../../Unit Tests/examples.txt"));
+
     ASSERT_FALSE(tester.BeginSolving(data));
 }
 
@@ -49,19 +55,19 @@ TEST(BaseAlgorithmTests, GuessTester1)
         {
             // The line where it was unknown
             if (x != y)
-                ASSERT_EQ(dataCopy.board[x][y], data.board[x][y]);
+                ASSERT_EQ(dataCopy.GetNumberAtPosition(x, y), data.GetNumberAtPosition(x, y));
         }
     }
 
-    ASSERT_EQ(1, data.board[0][0]);
-    ASSERT_EQ(5, data.board[1][1]);
-    ASSERT_EQ(9, data.board[2][2]);
-    ASSERT_EQ(5, data.board[3][3]);
-    ASSERT_EQ(9, data.board[4][4]);
-    ASSERT_EQ(4, data.board[5][5]);
-    ASSERT_EQ(9, data.board[6][6]);
-    ASSERT_EQ(4, data.board[7][7]);
-    ASSERT_EQ(8, data.board[8][8]);
+    ASSERT_EQ(1, data.GetNumberAtPosition(0, 0));
+    ASSERT_EQ(5, data.GetNumberAtPosition(1, 1));
+    ASSERT_EQ(9, data.GetNumberAtPosition(2, 2));
+    ASSERT_EQ(5, data.GetNumberAtPosition(3, 3));
+    ASSERT_EQ(9, data.GetNumberAtPosition(4, 4));
+    ASSERT_EQ(4, data.GetNumberAtPosition(5, 5));
+    ASSERT_EQ(9, data.GetNumberAtPosition(6, 6));
+    ASSERT_EQ(4, data.GetNumberAtPosition(7, 7));
+    ASSERT_EQ(8, data.GetNumberAtPosition(8, 8));
 }
 
 
@@ -75,23 +81,23 @@ TEST(BaseAlgorithmTests, GuessTester2)
     AlgorithmTester tester;
     ASSERT_TRUE(tester.BeginSolving(data));
 
-    ASSERT_EQ(1, data.board[0][0]);
-    ASSERT_EQ(5, data.board[1][1]);
-    ASSERT_EQ(9, data.board[2][2]);
-    ASSERT_EQ(5, data.board[3][3]);
-    ASSERT_EQ(9, data.board[4][4]);
-    ASSERT_EQ(4, data.board[5][5]);
-    ASSERT_EQ(9, data.board[6][6]);
-    ASSERT_EQ(4, data.board[7][7]);
-    ASSERT_EQ(8, data.board[8][8]);
+    ASSERT_EQ(1, data.GetNumberAtPosition(0, 0));
+    ASSERT_EQ(5, data.GetNumberAtPosition(1, 1));
+    ASSERT_EQ(9, data.GetNumberAtPosition(2, 2));
+    ASSERT_EQ(5, data.GetNumberAtPosition(3, 3));
+    ASSERT_EQ(9, data.GetNumberAtPosition(4, 4));
+    ASSERT_EQ(4, data.GetNumberAtPosition(5, 5));
+    ASSERT_EQ(9, data.GetNumberAtPosition(6, 6));
+    ASSERT_EQ(4, data.GetNumberAtPosition(7, 7));
+    ASSERT_EQ(8, data.GetNumberAtPosition(8, 8));
 
-    ASSERT_EQ(9, data.board[8][0]);
-    ASSERT_EQ(2, data.board[7][1]);
-    ASSERT_EQ(4, data.board[6][2]);
-    ASSERT_EQ(7, data.board[5][3]);
-    ASSERT_EQ(9, data.board[4][4]);
-    ASSERT_EQ(2, data.board[3][5]);
-    ASSERT_EQ(5, data.board[2][6]);
-    ASSERT_EQ(7, data.board[1][7]);
-    ASSERT_EQ(9, data.board[0][8]);
+    ASSERT_EQ(9, data.GetNumberAtPosition(8, 0));
+    ASSERT_EQ(2, data.GetNumberAtPosition(7, 1));
+    ASSERT_EQ(4, data.GetNumberAtPosition(6, 2));
+    ASSERT_EQ(7, data.GetNumberAtPosition(5, 3));
+    ASSERT_EQ(9, data.GetNumberAtPosition(4, 4));
+    ASSERT_EQ(2, data.GetNumberAtPosition(3, 5));
+    ASSERT_EQ(5, data.GetNumberAtPosition(2, 6));
+    ASSERT_EQ(7, data.GetNumberAtPosition(1, 7));
+    ASSERT_EQ(9, data.GetNumberAtPosition(0, 8));
 }

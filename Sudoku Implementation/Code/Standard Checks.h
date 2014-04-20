@@ -5,7 +5,7 @@
 
 namespace BoardInformation {
 
-    struct BoardData;
+    class BoardData;
 
     // Will check to see if the given board is solved. 
         // Note: Will NOT check to see if the board is valid, only if all positions have a value

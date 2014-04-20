@@ -53,6 +53,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(GTEST_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,6 +88,7 @@
   <ItemGroup>
     <ClCompile Include="Base Algorithm Tests.cpp" />
     <ClCompile Include="Board Data Tests.cpp" />
+    <ClCompile Include="Conversion Tests.cpp" />
     <ClCompile Include="Loading Board Tests.cpp" />
     <ClCompile Include="Standard Algorithm Tests.cpp" />
     <ClCompile Include="Standard Checks Tests.cpp" />

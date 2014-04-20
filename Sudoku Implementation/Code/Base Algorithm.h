@@ -4,7 +4,7 @@
 
 namespace BoardInformation
 {
-    struct BoardData;
+    class BoardData;
 }
 
 
@@ -17,6 +17,6 @@ public:
 protected:
     virtual void Solve(BoardInformation::BoardData & board) = 0;
 
-    void GuessSpot(BoardInformation::BoardData & board);
+    virtual void GuessSpot(BoardInformation::BoardData & board);
 
 };

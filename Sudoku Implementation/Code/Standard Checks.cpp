@@ -4,11 +4,11 @@
 
 bool BoardInformation::IsSolved(const BoardData& board)
 {
-    for (size_t x = 0; x < board.boardSize; ++x)
+    for (size_t x = 0; x < board.GetBoardSize(); ++x)
     {
-        for (size_t y = 0; y < board.boardSize; ++y)
+        for (size_t y = 0; y < board.GetBoardSize(); ++y)
         {
-            if (!board.board[x][y])
+            if (!board.GetNumberAtPosition(x, y))
                 return false;
         }
     }
@@ -22,24 +22,24 @@ bool BoardInformation::IsSolved(const BoardData& board)
 
 bool BoardInformation::IsImpossible(const BoardData & board)
 {
-    for (size_t num = 1; num < board.boardSize + 1; ++num)
+    for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
     {
-        for (size_t boxX = 0; boxX < board.boardSize / board.boxSize; ++boxX)
+        for (size_t sectionX = 0; sectionX < board.GetNumberOfSections(); ++sectionX)
         {
-            for (size_t boxY = 0; boxY < board.boardSize / board.boxSize; ++boxY)
+            for (size_t sectionY = 0; sectionY < board.GetNumberOfSections(); ++sectionY)
             {
-                if (!board.numberPlacedInSection[num][boxX][boxY])
+                if (!board.GetNumberPlacedInSection(sectionX, sectionY, num))
                 {
                     bool atLeastOneSpot = false;
 
-                    size_t baseX = boxX * board.boxSize;
-                    size_t baseY = boxY * board.boxSize;
+                    size_t baseX = ConvertFromSectionToSectionOffset(board, sectionX);
+                    size_t baseY = ConvertFromSectionToSectionOffset(board, sectionY);
 
-                    for (size_t xc = 0; xc < board.boxSize; ++xc)
+                    for (size_t xc = 0; xc < board.GetSectionSize(); ++xc)
                     {
-                        for (size_t yc = 0; yc < board.boxSize; ++yc)
+                        for (size_t yc = 0; yc < board.GetSectionSize(); ++yc)
                         {
-                            if (board.canBePlacedIn[num][baseX + xc][baseY + yc])
+                            if (board.GetCanBePlacedAtPosition(baseX + xc, baseY + yc, num))
                                 atLeastOneSpot = true;
                         }
                     }
@@ -64,11 +64,11 @@ size_t BoardInformation::GetOnlyNumberCanBePlaced(const BoardData & board, size_
 {
     size_t num = 0;
 
-    for (size_t currentNumber = 1; currentNumber <= board.boardSize; ++currentNumber)
+    for (size_t currentNumber = 1; currentNumber < board.GetNumberOfPossibleNumbers(); ++currentNumber)
     {
-        if (board.canBePlacedIn[currentNumber][x][y])
+        if (board.GetCanBePlacedAtPosition(x, y, currentNumber))
         {
-            // Another number could be placed
+            // Another number could be placed. Can do this because currentNumber >= 1
             if (num)
                 return 0;
 
@@ -86,17 +86,16 @@ size_t BoardInformation::GetOnlyNumberCanBePlaced(const BoardData & board, size_
 
 void BoardInformation::GetRowAndColumnOnlyPossible(const BoardData & board, const size_t linePos, std::vector<int>& rowOnlyPos, std::vector<bool>& singleOccuranceInRow, std::vector<int>& columnOnlyPos, std::vector<bool>& singleOccuranceInColumn)
 {
-    for (size_t num = 1; num <= board.boardSize; ++num)
+    for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
     {
         bool multipleOccurancesInRow = false;
         bool multipleOccurancesInColumn = false;
         singleOccuranceInRow[num] = false;
         singleOccuranceInColumn[num] = false;
 
-        for (size_t otherPos = 0; otherPos < board.boardSize; ++otherPos)
+        for (size_t otherPos = 0; otherPos < board.GetBoardSize(); ++otherPos)
         {
-            // Row code
-            if (board.canBePlacedIn[num][linePos][otherPos] && !multipleOccurancesInRow)
+            if (board.GetCanBePlacedAtPosition(otherPos, linePos, num) && !multipleOccurancesInRow)
             {
                 if (singleOccuranceInRow[num])
                 {
@@ -104,7 +103,7 @@ void BoardInformation::GetRowAndColumnOnlyPossible(const BoardData & board, cons
                     multipleOccurancesInRow = true;
                 }
 
-                else
+                else if (!multipleOccurancesInRow)
                 {
                     rowOnlyPos[num] = otherPos;
                     singleOccuranceInRow[num] = true;
@@ -113,14 +112,15 @@ void BoardInformation::GetRowAndColumnOnlyPossible(const BoardData & board, cons
 
 
             // Column code
-            if (board.canBePlacedIn[num][otherPos][linePos] && !multipleOccurancesInColumn)
+            if (board.GetCanBePlacedAtPosition(linePos, otherPos, num) && !multipleOccurancesInColumn)
             {
                 if (singleOccuranceInColumn[num])
                 {
                     singleOccuranceInColumn[num] = false;
                     multipleOccurancesInColumn = true;
                 }
-                else
+
+                else if (!multipleOccurancesInColumn)
                 {
                     columnOnlyPos[num] = otherPos;
                     singleOccuranceInColumn[num] = true;
@@ -136,23 +136,23 @@ void BoardInformation::GetRowAndColumnOnlyPossible(const BoardData & board, cons
 
 void BoardInformation::GetSectionOnlyPossible(const BoardData & board, const size_t sectionX, const size_t sectionY, std::vector<std::pair<size_t, size_t>>& positionInSection, std::vector<bool>& singleOccuranceInSection)
 {
-    size_t xOffset = sectionX * board.boxSize;
-    size_t yOffset = sectionY * board.boxSize;
+    size_t xOffset = ConvertFromSectionToSectionOffset(board, sectionX);
+    size_t yOffset = ConvertFromSectionToSectionOffset(board, sectionY);
 
-    for (size_t num = 1; num <= board.boardSize; ++num)
+    for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
     {
         singleOccuranceInSection[num] = false;
 
         // Only matters if the number can be placed in
-        if (!board.numberPlacedInSection[num][sectionX][sectionY])
+        if (!board.GetNumberPlacedInSection(sectionX, sectionY, num))
         {
             bool multipleOccurances = false;
 
-            for (size_t x = 0; x < board.boxSize; ++x)
+            for (size_t x = 0; x < board.GetSectionSize(); ++x)
             {
-                for (size_t y = 0; y < board.boxSize; ++y)
+                for (size_t y = 0; y < board.GetSectionSize(); ++y)
                 {
-                    if (board.canBePlacedIn[num][xOffset + x][yOffset + y])
+                    if (board.GetCanBePlacedAtPosition(xOffset + x, yOffset + y, num))
                     {
                         if (singleOccuranceInSection[num])
                         {

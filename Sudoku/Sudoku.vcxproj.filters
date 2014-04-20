@@ -18,5 +18,8 @@
     <ClCompile Include="Sudoku.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Choose Used Example.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

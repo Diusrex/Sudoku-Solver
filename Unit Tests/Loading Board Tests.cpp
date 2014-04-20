@@ -32,14 +32,16 @@ TEST(LoadingBoard, PuzzleExists)
     ASSERT_TRUE(LoadBoard(tempBoard, "basic", "../../Unit Tests/examples.txt"));
 
     // The board basic is a 4 x 4, with the number = y * 4 + x + 1
-    ASSERT_EQ(2, tempBoard.boxSize);
-    ASSERT_EQ(4, tempBoard.boardSize);
+    ASSERT_EQ(2, tempBoard.GetSectionSize());
+    ASSERT_EQ(4, tempBoard.GetBoardSize());
+    ASSERT_EQ(5, tempBoard.GetNumberOfPossibleNumbers());
+    ASSERT_EQ(2, tempBoard.GetNumberOfSections());
 
     for (int x = 0; x < 4; ++x)
     {
         for (int y = 0; y < 4; ++y)
         {
-            ASSERT_EQ(y * 4 + x + 1, tempBoard.board[x][y]);
+            ASSERT_EQ(y * 4 + x + 1, tempBoard.GetNumberAtPosition(x, y));
         }
     }
 }

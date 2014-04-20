@@ -43,17 +43,15 @@ TEST(IsImpossibleTests, IsPossibleTest)
 
     board.SetUpSizes(2);
     ASSERT_FALSE(IsImpossible(board));
+    
+    // The following code is possible because 2 is in the board, and it doesn't matter than 1 is missing 2 spots
 
-    // This would represent not being able to be placed in top left, and bottom right of top right box
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[1][1][1] = false;
+    // This would represent having placed 2 in the top left section
+    board.SetBox(0, 1, 2);
 
-    // This would represent having claimed the top right box for 2
-    board.canBePlacedIn[2][0][0] = false;
-    board.canBePlacedIn[2][0][1] = false;
-    board.canBePlacedIn[2][1][1] = false;
-    board.canBePlacedIn[2][1][0] = false;
-    board.numberPlacedInSection[2][0][0] = true;
+    // This would represent not being able to only be able to place 1 in a single box within the top right section
+    board.SetBox(1, 1, 3);
+    board.SetBox(1, 0, 4);
 
     ASSERT_FALSE(IsImpossible(board));
 }
@@ -67,11 +65,13 @@ TEST(IsImpossibleTests, IsImpossibleTest)
 
     board.SetUpSizes(2);
 
-    // This would represent not being able to be placed in top right box
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[1][0][1] = false;
-    board.canBePlacedIn[1][1][0] = false;
-    board.canBePlacedIn[1][1][1] = false;
+    // This would make it so that 1 can only be placed in the bottom left corner of the top section
+    board.SetBox(2, 0, 1);
+    board.SetBox(0, 2, 1);
+
+    // This would make placing 1 in the top section be impossible
+    board.SetBox(1, 1, 2);
+
     ASSERT_TRUE(IsImpossible(board));
 }
 
@@ -84,9 +84,10 @@ TEST(GetOnlyNumberCanBePlacedTests, OneExists)
 
     board.SetUpSizes(2);
 
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[2][0][0] = false;
-    board.canBePlacedIn[3][0][0] = false;
+    // This would case (0, 0) be the only possible spot for 4 in the top left section
+    board.SetBox(1, 0, 1);
+    board.SetBox(0, 1, 2);
+    board.SetBox(1, 1, 3);
 
     ASSERT_EQ(4, GetOnlyNumberCanBePlaced(board, 0, 0));
 }
@@ -99,8 +100,9 @@ TEST(GetOnlyNumberCanBePlacedTests, MultipleOptions)
 
     board.SetUpSizes(2);
 
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[2][0][0] = false;
+    // This would mean that there are two number that can be placed into (0, 0)
+    board.SetBox(1, 0, 1);
+    board.SetBox(0, 1, 2);
 
     ASSERT_EQ(0, GetOnlyNumberCanBePlaced(board, 0, 0));
 }
@@ -114,10 +116,8 @@ TEST(GetOnlyNumberCanBePlacedTests, NoOptions)
 
     board.SetUpSizes(2);
 
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[2][0][0] = false;
-    board.canBePlacedIn[3][0][0] = false;
-    board.canBePlacedIn[4][0][0] = false;
+    // This would represent having no possible number be able to be placed in (0, 0)
+    board.SetBox(0, 0, 1);
 
     ASSERT_EQ(0, GetOnlyNumberCanBePlaced(board, 0, 0));
 }
@@ -130,12 +130,12 @@ TEST(GetRowAndColumnOnlyPossibleTests, AllAvailable)
 
     board.SetUpSizes(2);
 
-    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
-    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+    std::vector<int> rowOnlyPos(board.GetNumberOfPossibleNumbers()), columnOnlyPos(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInRow(board.GetNumberOfPossibleNumbers()), singleOccuranceInColumn(board.GetNumberOfPossibleNumbers());
 
     GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
 
-    for (size_t num = 1; num <= board.boardSize; ++num)
+    for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
     {
         ASSERT_FALSE(singleOccuranceInRow[num]);
         ASSERT_FALSE(singleOccuranceInColumn[num]);
@@ -143,7 +143,7 @@ TEST(GetRowAndColumnOnlyPossibleTests, AllAvailable)
 }
 
 
-
+// There is no need to test for if a spot has already been taken in the row, because then everything will be false
 TEST(GetRowAndColumnOnlyPossibleTests, RowSingleAvailableTests)
 {
     BoardData board;
@@ -151,33 +151,19 @@ TEST(GetRowAndColumnOnlyPossibleTests, RowSingleAvailableTests)
     board.SetUpSizes(2);
 
     // This will mean that the number 1 can only be placed in [3] for the row 0
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[1][0][1] = false;
-    board.canBePlacedIn[1][0][2] = false;
+    board.SetBox(0, 1, 1);
+    board.SetBox(2, 2, 1);
 
-    // This will mean that the number 2 can only be placed in [0] for the row 0
-    board.canBePlacedIn[2][0][1] = false;
-    board.canBePlacedIn[2][0][2] = false;
-    board.canBePlacedIn[2][0][3] = false;
-
-    // This will mean that the number 3 can only be placed in [1] for the row 0
-    board.canBePlacedIn[3][0][0] = false;
-    board.canBePlacedIn[3][0][2] = false;
-    board.canBePlacedIn[3][0][3] = false;
-
-    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
-    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+    std::vector<int> rowOnlyPos(board.GetNumberOfPossibleNumbers()), columnOnlyPos(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInRow(board.GetNumberOfPossibleNumbers()), singleOccuranceInColumn(board.GetNumberOfPossibleNumbers());
 
     GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
 
     ASSERT_TRUE(singleOccuranceInRow[1]);
     ASSERT_EQ(3, rowOnlyPos[1]);
-    ASSERT_TRUE(singleOccuranceInRow[2]);
-    ASSERT_EQ(0, rowOnlyPos[2]);
-    ASSERT_TRUE(singleOccuranceInRow[3]);
-    ASSERT_EQ(1, rowOnlyPos[3]);
-
 }
+
+
 
 
 
@@ -186,34 +172,20 @@ TEST(GetRowAndColumnOnlyPossibleTests, ColumnSingleAvailableTests)
     BoardData board;
 
     board.SetUpSizes(2);
-
+    
     // This will mean that the number 1 can only be placed in [3] for the column 0
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[1][1][0] = false;
-    board.canBePlacedIn[1][2][0] = false;
-
-    // This will mean that the number 2 can only be placed in [0] for the column 0
-    board.canBePlacedIn[2][1][0] = false;
-    board.canBePlacedIn[2][2][0] = false;
-    board.canBePlacedIn[2][3][0] = false;
-
-    // This will mean that the number 3 can only be placed in [1] for the column 0
-    board.canBePlacedIn[3][0][0] = false;
-    board.canBePlacedIn[3][2][0] = false;
-    board.canBePlacedIn[3][3][0] = false;
-
-    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
-    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+        // First sets the [0] and [1] to false. Second sets [2] to false
+    board.SetBox(1, 0, 1);
+    board.SetBox(2, 2, 1);
+    
+    
+    std::vector<int> rowOnlyPos(board.GetNumberOfPossibleNumbers()), columnOnlyPos(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInRow(board.GetNumberOfPossibleNumbers()), singleOccuranceInColumn(board.GetNumberOfPossibleNumbers());
 
     GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
 
     ASSERT_TRUE(singleOccuranceInColumn[1]);
     ASSERT_EQ(3, columnOnlyPos[1]);
-    ASSERT_TRUE(singleOccuranceInColumn[2]);
-    ASSERT_EQ(0, columnOnlyPos[2]);
-    ASSERT_TRUE(singleOccuranceInColumn[3]);
-    ASSERT_EQ(1, columnOnlyPos[3]);
-
 }
 
 
@@ -225,56 +197,29 @@ TEST(GetRowAndColumnOnlyPossibleTests, RowAndColumnSingleAvailableTests)
 
     board.SetUpSizes(2);
 
-    // This will mean that the number 1 can only be placed in [3] for the row 0
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[1][0][1] = false;
-    board.canBePlacedIn[1][0][2] = false;
-
-    // This will mean that the number 1 can only be placed in [3] for the column 0
-    board.canBePlacedIn[1][0][0] = false;
-    board.canBePlacedIn[1][1][0] = false;
-    board.canBePlacedIn[1][2][0] = false;
+    // This will mean that the number 1 can only be placed in [2] for the row 0, and in the [3] for column 0
+    board.SetBox(1, 1, 1);
+    board.SetBox(3, 2, 1);
 
 
-    // This will mean that the number 2 can only be placed in [0] for the row 0
-    board.canBePlacedIn[2][0][1] = false;
-    board.canBePlacedIn[2][0][2] = false;
-    board.canBePlacedIn[2][0][3] = false;
+    // This will mean that the number 2 can only be placed in [0] for the row 0, and in [0] for column 0
+    board.SetBox(2, 1, 2);
+    board.SetBox(1, 2, 2);
 
-    // This will mean that the number 2 can only be placed in [0] for the column 0
-    board.canBePlacedIn[2][1][0] = false;
-    board.canBePlacedIn[2][2][0] = false;
-    board.canBePlacedIn[2][3][0] = false;
-
-
-    // This will mean that the number 3 can only be placed in [1] for the row 0
-    board.canBePlacedIn[3][0][0] = false;
-    board.canBePlacedIn[3][0][2] = false;
-    board.canBePlacedIn[3][0][3] = false;
-
-    // This will mean that the number 3 can only be placed in [1] for the column 0
-    board.canBePlacedIn[3][0][0] = false;
-    board.canBePlacedIn[3][2][0] = false;
-    board.canBePlacedIn[3][3][0] = false;
-
-    std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
-    std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+    std::vector<int> rowOnlyPos(board.GetNumberOfPossibleNumbers()), columnOnlyPos(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInRow(board.GetNumberOfPossibleNumbers()), singleOccuranceInColumn(board.GetNumberOfPossibleNumbers());
 
     GetRowAndColumnOnlyPossible(board, 0, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
 
     ASSERT_TRUE(singleOccuranceInRow[1]);
-    ASSERT_EQ(3, rowOnlyPos[1]);
+    ASSERT_EQ(2, rowOnlyPos[1]);
     ASSERT_TRUE(singleOccuranceInRow[2]);
     ASSERT_EQ(0, rowOnlyPos[2]);
-    ASSERT_TRUE(singleOccuranceInRow[3]);
-    ASSERT_EQ(1, rowOnlyPos[3]);
 
     ASSERT_TRUE(singleOccuranceInColumn[1]);
     ASSERT_EQ(3, columnOnlyPos[1]);
     ASSERT_TRUE(singleOccuranceInColumn[2]);
     ASSERT_EQ(0, columnOnlyPos[2]);
-    ASSERT_TRUE(singleOccuranceInColumn[3]);
-    ASSERT_EQ(1, columnOnlyPos[3]);
 }
 
 
@@ -284,12 +229,12 @@ TEST(GetSectionOnlyPossibleTests, MultipleAvailableTest)
 
     board.SetUpSizes(2);
 
-    std::vector<std::pair<size_t, size_t>> positionInSection(board.boardSize + 1); 
-    std::vector<bool> singleOccuranceInSection(board.boardSize + 1);
+    std::vector<std::pair<size_t, size_t>> positionInSection(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInSection(board.GetNumberOfPossibleNumbers());
 
     GetSectionOnlyPossible(board, 0, 0, positionInSection, singleOccuranceInSection);
 
-    for (size_t num = 1; num <= board.boardSize; ++num)
+    for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
         ASSERT_FALSE(singleOccuranceInSection[num]);
 }
 
@@ -299,12 +244,12 @@ TEST(GetSectionOnlyPossibleTests, SingleSpotTest)
 {
     BoardData board;
 
-    // If either of these are false, then no poin in continuing
+    // If either of these are false, then no point in continuing
     ASSERT_TRUE(LoadBoard(board, "unsolved_section", "../../Unit Tests/examples.txt"));
-    ASSERT_TRUE(SetUpPossibleSpots(board));
+    ASSERT_TRUE(board.SetUpPossibleSpots());
 
-    std::vector<std::pair<size_t, size_t>> positionInSection(board.boardSize + 1);
-    std::vector<bool> singleOccuranceInSection(board.boardSize + 1);
+    std::vector<std::pair<size_t, size_t>> positionInSection(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInSection(board.GetNumberOfPossibleNumbers());
 
     GetSectionOnlyPossible(board, 0, 0, positionInSection, singleOccuranceInSection);
 
@@ -317,7 +262,7 @@ TEST(GetSectionOnlyPossibleTests, SingleSpotTest)
     ASSERT_TRUE(singleOccuranceInSection[3]);
     ASSERT_EQ(2, positionInSection[3].first); ASSERT_EQ(0, positionInSection[3].second);
 
-    for (size_t num = 4; num <= board.boardSize; ++num)
+    for (size_t num = 4; num < board.GetNumberOfPossibleNumbers(); ++num)
         ASSERT_FALSE(singleOccuranceInSection[num]) << num;
 }
 
@@ -327,12 +272,12 @@ TEST(GetSectionOnlyPossibleTests, OffsetTest)
 {
     BoardData board;
 
-    // If either of these are false, then no poin in continuing
+    // If either of these are false, then no point in continuing
     ASSERT_TRUE(LoadBoard(board, "unsolved_section_offset", "../../Unit Tests/examples.txt"));
-    ASSERT_TRUE(SetUpPossibleSpots(board));
+    ASSERT_TRUE(board.SetUpPossibleSpots());
 
-    std::vector<std::pair<size_t, size_t>> positionInSection(board.boardSize + 1);
-    std::vector<bool> singleOccuranceInSection(board.boardSize + 1);
+    std::vector<std::pair<size_t, size_t>> positionInSection(board.GetNumberOfPossibleNumbers());
+    std::vector<bool> singleOccuranceInSection(board.GetNumberOfPossibleNumbers());
 
     GetSectionOnlyPossible(board, 1, 1, positionInSection, singleOccuranceInSection);
 
@@ -345,6 +290,6 @@ TEST(GetSectionOnlyPossibleTests, OffsetTest)
     ASSERT_TRUE(singleOccuranceInSection[3]);
     ASSERT_EQ(0, positionInSection[3].first); ASSERT_EQ(1, positionInSection[3].second);
 
-    for (size_t num = 4; num <= board.boardSize; ++num)
+    for (size_t num = 4; num < board.GetNumberOfPossibleNumbers(); ++num)
         ASSERT_FALSE(singleOccuranceInSection[num]) << num;
 }

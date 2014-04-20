@@ -10,7 +10,6 @@ void StandardAlgorithm::Solve(BoardInformation::BoardData &board)
 {
     bool changed = true;
 
-
     while (changed)
     {
         changed = false;
@@ -21,7 +20,8 @@ void StandardAlgorithm::Solve(BoardInformation::BoardData &board)
 
         changed = CheckSectionOptions(board) || changed;
     }
-
+    
+    
     // Will try to guess a spot (but only if it still possible)
     if (!IsSolved(board) && !IsImpossible(board))
         GuessSpot(board);
@@ -34,20 +34,18 @@ bool StandardAlgorithm::CheckSingleOptions(BoardInformation::BoardData &board)
 {
     bool changed = false;
 
-    for (size_t x = 0; x < board.boardSize; ++x)
+    for (size_t x = 0; x < board.GetBoardSize(); ++x)
     {
-        for (size_t y = 0; y < board.boardSize; ++y)
+        for (size_t y = 0; y < board.GetBoardSize(); ++y)
         {
             // Should only look for a number that can be replaced if there is currently no number there
-            if (!board.board[x][y])
+            if (!board.GetNumberAtPosition(x, y))
             {
                 size_t num = BoardInformation::GetOnlyNumberCanBePlaced(board, x, y);
 
                 if (num)
                 {
-                    board.board[x][y] = num;
-
-                    BoardInformation::UpdatePossibleSpots(board, num, x, y);
+                    board.SetBox(x, y, num);
 
                     changed = true;
                 }
@@ -64,31 +62,27 @@ bool StandardAlgorithm::CheckRowAndColumnOptions(BoardInformation::BoardData &bo
 {
     bool changed = false;
 
-    for (size_t linePos = 0; linePos < board.boardSize; ++linePos)
+    for (size_t linePos = 0; linePos < board.GetBoardSize(); ++linePos)
     {
-        std::vector<int> rowOnlyPos(board.boardSize + 1), columnOnlyPos(board.boardSize + 1);
-        std::vector<bool> singleOccuranceInRow(board.boardSize + 1), singleOccuranceInColumn(board.boardSize + 1);
+        std::vector<int> rowOnlyPos(board.GetNumberOfPossibleNumbers()), columnOnlyPos(board.GetNumberOfPossibleNumbers());
+        std::vector<bool> singleOccuranceInRow(board.GetNumberOfPossibleNumbers()), singleOccuranceInColumn(board.GetNumberOfPossibleNumbers());
 
         BoardInformation::GetRowAndColumnOnlyPossible(board, linePos, rowOnlyPos, singleOccuranceInRow, columnOnlyPos, singleOccuranceInColumn);
 
         // Now go through each number, and check to see if it occured in a single pos
-        for (size_t num = 1; num <= board.boardSize; ++num)
+        for (size_t num = 1; num < board.GetNumberOfPossibleNumbers(); ++num)
         {
             // Row handling
             if (singleOccuranceInRow[num])
             {
-                board.board[linePos][rowOnlyPos[num]] = num;
-
-                BoardInformation::UpdatePossibleSpots(board, num, linePos, rowOnlyPos[num]);
+                board.SetBox(rowOnlyPos[num], linePos, num);
 
                 changed = true;
             }
 
             if (singleOccuranceInColumn[num])
             {
-                board.board[columnOnlyPos[num]][linePos] = num;
-
-                BoardInformation::UpdatePossibleSpots(board, num, columnOnlyPos[num], linePos);
+                board.SetBox(linePos, columnOnlyPos[num], num);
 
                 changed = true;
             }
@@ -106,24 +100,23 @@ bool StandardAlgorithm::CheckSectionOptions(BoardInformation::BoardData &board)
 {
     bool changed = false;
 
-    for (size_t sectionX = 0; sectionX < board.boxSize; ++sectionX)
+    for (size_t sectionX = 0; sectionX < board.GetSectionSize(); ++sectionX)
     {
-        for (size_t sectionY = 0; sectionY < board.boxSize; ++sectionY)
+        for (size_t sectionY = 0; sectionY < board.GetSectionSize(); ++sectionY)
         {
-            std::vector<std::pair<size_t, size_t>> positionInSection(board.boardSize + 1);
-            std::vector<bool> singleOccuranceInSection(board.boardSize + 1);
+            std::vector<std::pair<size_t, size_t>> positionInSection(board.GetNumberOfPossibleNumbers());
+            std::vector<bool> singleOccuranceInSection(board.GetNumberOfPossibleNumbers());
 
             BoardInformation::GetSectionOnlyPossible(board, sectionX, sectionY, positionInSection, singleOccuranceInSection);
 
-            for (size_t num = 1; num <= board.boardSize; ++num)
+            for (size_t num = 1; num <= board.GetBoardSize(); ++num)
             {
                 if (singleOccuranceInSection[num])
                 {
-                    size_t x = sectionX * board.boxSize + positionInSection[num].first;
-                    size_t y = sectionY * board.boxSize + positionInSection[num].second;
+                    size_t x = BoardInformation::ConvertFromSectionToSectionOffset(board, sectionX) + positionInSection[num].first;
+                    size_t y = BoardInformation::ConvertFromSectionToSectionOffset(board, sectionY) + positionInSection[num].second;
 
-                    board.board[x][y] = num;
-                    BoardInformation::UpdatePossibleSpots(board, num, x, y);
+                    board.SetBox(x, y, num);
 
                     changed = true;
                 }

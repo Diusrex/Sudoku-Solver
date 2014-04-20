@@ -4,7 +4,7 @@
 
 namespace BoardInformation {
 
-    struct BoardData;
+    class BoardData;
 
     bool ChooseExampleToLoad(BoardData& board);
 

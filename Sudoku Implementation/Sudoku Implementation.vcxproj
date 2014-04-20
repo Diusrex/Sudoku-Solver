@@ -30,6 +30,7 @@
     <ClCompile Include="Code\Base Algorithm.cpp" />
     <ClCompile Include="Code\Board Data.cpp" />
     <ClCompile Include="Code\Load Board.cpp" />
+    <ClCompile Include="Code\Run Program.cpp" />
     <ClCompile Include="Code\Standard Algorithm.cpp" />
     <ClCompile Include="Code\Standard Checks.cpp" />
   </ItemGroup>
@@ -37,6 +38,7 @@
     <ClInclude Include="Code\Base Algorithm.h" />
     <ClInclude Include="Code\Board Data.h" />
     <ClInclude Include="Code\Load Board.h" />
+    <ClInclude Include="Code\Run Program.h" />
     <ClInclude Include="Code\Standard Algorithm.h" />
     <ClInclude Include="Code\Standard Checks.h" />
   </ItemGroup>

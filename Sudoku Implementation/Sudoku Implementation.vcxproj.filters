@@ -24,6 +24,9 @@
     <ClInclude Include="Code\Standard Algorithm.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Run Program.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Board Data.cpp">
@@ -39,6 +42,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Code\Standard Algorithm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Run Program.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

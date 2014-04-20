@@ -19,18 +19,18 @@ void BoardInformation::BoardData::SetUpSizes(size_t newBoxSize)
 
 
 
-void BoardInformation::BoardData::PrintOut() const
+void BoardInformation::BoardData::PrintOut(bool show0s) const
 {
     cout << "\n\n";
-    cout << "   0 1 2   3 4 5   6 7 8\n"
-        << " +-------|-------|------\n";
+    cout << "    0 1 2   3 4 5   6 7 8\n"
+        << "  +-------|-------|------\n";
 
     for (size_t y = 0; y < boardSize; ++y)
     {
         for (size_t x = 0; x < boardSize; ++x)
         {
             // Should have a separator
-            if ((x % 3 == 0) && (x != 0))
+            if ((x % sectionSize == 0) && (x != 0))
             {
                 cout << "| ";
             }
@@ -39,13 +39,16 @@ void BoardInformation::BoardData::PrintOut() const
             else if (x == 0)
             {
                 // Print out the horizontal line
-                if ((y % 3 == 0) && (y != 0))
-                    cout << " |-------|-------|------\n";
+                if ((y % sectionSize == 0) && (y != 0))
+                    cout << "  |-------|-------|------\n";
 
-                cout << " | ";
+                cout << y << " | ";
             }
 
-            cout << board[x][y] << ' ';
+            if (board[x][y] == 0 && !show0s)
+                cout << "  ";
+            else
+                cout << board[x][y] << ' ';
         }
 
         cout << '\n';

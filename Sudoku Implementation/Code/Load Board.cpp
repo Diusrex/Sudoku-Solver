@@ -3,12 +3,15 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 #include "Load Board.h"
 
 using namespace std;
 
+
 vector<string> GetAllPossiblePuzzles(string filePath);
+
 
 bool BoardInformation::ChooseExampleToLoad(BoardData& board)
 {
@@ -60,6 +63,9 @@ bool BoardInformation::ChooseExampleToLoad(BoardData& board)
 }
 
 
+
+
+
 vector<string> GetAllPossiblePuzzles(string filePath)
 {
     ifstream file("examples.txt");
@@ -82,6 +88,9 @@ vector<string> GetAllPossiblePuzzles(string filePath)
 
     return allOptions;
 }
+
+
+
 
 
 bool BoardInformation::LoadBoard(BoardData& board, const std::string& wanted, const std::string& filePath)
@@ -117,4 +126,44 @@ bool BoardInformation::LoadBoard(BoardData& board, const std::string& wanted, co
     }
 
     return false;
+}
+
+
+
+
+
+void BoardInformation::EnterPuzzleFromInput(BoardData& board)
+{
+    int x, y, num;
+
+    for (;;)
+    {
+        board.PrintOut();
+        cout << endl << "State row then column, then what number is there all separated by a space. Once all spots have been inputed, give the value of the row, column and number to be -1." << endl;
+        
+        cin >> x >> y >> num;
+
+        if (x == -1 || y == -1 || num == -1)
+            break;
+        
+
+        board.board[x][y] = num;
+
+        cout << "\n\n";
+        //system("cls");
+    }
+
+    cin.clear();
+    string decision;
+
+    // to show the user what the puzzle looks like before it is solved
+    cout << "The puzzle before: ";
+    
+    board.PrintOut();
+
+    cout << "Do you want to change the location of any points? (y or n)"; cin >> decision;
+    if (decision == "y"){
+        EnterPuzzleFromInput(board);
+    }
+
 }

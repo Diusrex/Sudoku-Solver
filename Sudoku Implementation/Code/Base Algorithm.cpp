@@ -18,9 +18,9 @@ bool Algorithm::BeginSolving(BoardInformation::BoardData & board)
 
 void Algorithm::GuessSpot(BoardInformation::BoardData & board)
 {
-    for (size_t x = 0; x < board.GetBoardSize(); ++x)
+    for (size_t y = 0; y < board.GetBoardSize(); ++y)
     {
-        for (size_t y = 0; y < board.GetBoardSize(); ++y)
+        for (size_t x = 0; x < board.GetBoardSize(); ++x)
         {
             if (board.GetNumberAtPosition(x, y) == 0)
             {

@@ -26,13 +26,14 @@ namespace BoardInformation {
         // Note, should not be called when the board is changed, only when it is loaded
         bool SetUpPossibleSpots();
 
-        // Will nicely print out the array
-        void PrintOut() const;
+        // Will nicely print out the array, but only if it is a 3 by 3
+        void PrintOut(bool show0s = false) const;
 
         void SetBox(const size_t x, const size_t y, const size_t takenNum);
 
-        // This is not a member because it is does not belong with the rest of board data's members
+        // These are not a member because they do not belong with the rest of board data's members
         friend bool LoadBoard(BoardData& board, const std::string& wanted, const std::string& filePath);
+        friend void EnterPuzzleFromInput(BoardData& board);
 
     private:
         // Will update the vertical and horizontal availability of the given number, as well as it's availability in the section

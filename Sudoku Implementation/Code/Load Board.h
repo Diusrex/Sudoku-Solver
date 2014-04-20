@@ -10,5 +10,6 @@ namespace BoardInformation {
 
     bool LoadBoard(BoardData& board, const std::string& wanted, const std::string& filePath);
 
+    void EnterPuzzleFromInput(BoardData& board);
 
 }

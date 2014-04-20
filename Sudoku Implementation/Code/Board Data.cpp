@@ -10,8 +10,8 @@ using namespace std;
 
 void BoardInformation::BoardData::SetUpSizes(size_t newBoxSize)
 {
-    boxSize = newBoxSize;
-    boardSize = boxSize * boxSize;
+    sectionSize = newBoxSize;
+    boardSize = sectionSize * sectionSize;
     board.resize(boardSize, vector<int>(boardSize, 0));
     canBePlacedIn.resize(boardSize + 1, vector<vector<bool>>(boardSize, vector<bool>(boardSize, true)));
     numberPlacedInSection.resize(boardSize + 1, vector<vector<bool>>(boardSize, vector<bool>(boardSize, false)));
@@ -58,30 +58,39 @@ void BoardInformation::BoardData::PrintOut() const
 
 
 
-bool BoardInformation::SetUpPossibleSpots(BoardData & board)
+bool BoardInformation::BoardData::SetUpPossibleSpots()
 {
-    for (size_t x = 0; x < board.boardSize; ++x)
+    for (size_t x = 0; x < boardSize; ++x)
     {
-        for (size_t y = 0; y < board.boardSize; ++y)
+        for (size_t y = 0; y < boardSize; ++y)
         {
-            if (board.board[x][y] != 0)
+            if (board[x][y] != 0)
             {
-                size_t number = board.board[x][y];
-                size_t boxX = x / board.boxSize, boxY = y / board.boxSize;
+                size_t number = board[x][y];
+                size_t sectionX = ConvertFromPositionToSection(*this, x), sectionY = ConvertFromPositionToSection(*this, y);
 
 
                 // Is to check to see if this spot has already been taken, if it has then the graph is not valid
-                if (!board.canBePlacedIn[number][x][y] || board.numberPlacedInSection[number][boxX][boxY])
+                if (!canBePlacedIn[number][x][y] || numberPlacedInSection[number][sectionX][sectionY])
                 {
                     return false;
                 }
 
-                UpdatePossibleSpots(board, number, x, y);
+                UpdatePossibleSpots(x, y, number);
             }
         }
     }
 
     return true;
+}
+
+
+
+
+void BoardInformation::BoardData::SetBox(const size_t x, const size_t y, const size_t takenNum)
+{
+    board[x][y] = takenNum;
+    UpdatePossibleSpots(x, y, takenNum);
 }
 
 
@@ -97,14 +106,16 @@ void SetRowAndColumnToFalse(vector<vector<bool>>& grid, size_t x, size_t y)
 }
 
 
+
+
 // Will set the grid for the given num in the given section to false
-void SetBoxToFalse(BoardInformation::BoardData & board, size_t takenNum, size_t sectionX, size_t sectionY)
+void SetSectionToFalse(vector<vector<bool>>& grid, const size_t xOffset, const size_t yOffset, const size_t sectionSize)
 {
-    for (size_t xc = 0; xc < board.boxSize; ++xc)
+    for (size_t xc = 0; xc < sectionSize; ++xc)
     {
-        for (size_t yc = 0; yc < board.boxSize; ++yc)
+        for (size_t yc = 0; yc < sectionSize; ++yc)
         {
-            board.canBePlacedIn[takenNum][sectionX * board.boxSize + xc][sectionY * board.boxSize + yc] = false;
+            grid[xOffset + xc][yOffset + yc] = false;
         }
     }
 }
@@ -112,17 +123,44 @@ void SetBoxToFalse(BoardInformation::BoardData & board, size_t takenNum, size_t 
 
 
 
-void BoardInformation::UpdatePossibleSpots(BoardData & board, size_t takenNum, size_t x, size_t y)
+
+void BoardInformation::BoardData::UpdatePossibleSpots(const size_t x, const size_t y, const size_t takenNum)
 {
-    size_t sectionX = x / board.boxSize, sectionY = y / board.boxSize;
 
-    SetRowAndColumnToFalse(board.canBePlacedIn[takenNum], x, y);
+    SetRowAndColumnToFalse(canBePlacedIn[takenNum], x, y);
+    
+    const size_t sectionX = ConvertFromPositionToSection(*this, x);
+    const size_t sectionY = ConvertFromPositionToSection(*this, y);
 
-    board.numberPlacedInSection[takenNum][sectionX][sectionY] = true;
+    numberPlacedInSection[takenNum][sectionX][sectionY] = true;
+    
+    SetSectionToFalse(canBePlacedIn[takenNum], ConvertFromSectionToSectionOffset(*this, sectionX), ConvertFromSectionToSectionOffset(*this, sectionY), sectionSize);
 
-    SetBoxToFalse(board, takenNum, sectionX, sectionY);
-
+    
     // No other number may be placed in the given box
-    for (size_t tempNum = 1; tempNum <= board.boardSize; ++tempNum)
-        board.canBePlacedIn[tempNum][x][y] = false;
+    for (size_t tempNum = 1; tempNum < GetNumberOfPossibleNumbers(); ++tempNum)
+        canBePlacedIn[tempNum][x][y] = false;
+}
+
+
+
+
+
+
+
+
+size_t BoardInformation::ConvertFromPositionToSection(const BoardData& board, size_t pos)
+{
+    return pos / board.GetSectionSize();
+}
+
+
+size_t BoardInformation::ConvertFromPositionToSectionOffset(const BoardData& board, size_t pos)
+{
+    return ConvertFromPositionToSection(board, pos) * board.GetSectionSize();
+}
+
+size_t BoardInformation::ConvertFromSectionToSectionOffset(const BoardData& board, size_t sectionPos)
+{
+    return sectionPos * board.GetSectionSize();
 }

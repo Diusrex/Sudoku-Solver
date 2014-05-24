@@ -1,51 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{41a2d5e5-4877-4b2b-86d9-fc0a8aa6a1db}</UniqueIdentifier>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{69898438-d993-4645-9395-4e727f774d69}</UniqueIdentifier>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code\Board Data.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="Code\Base Algorithm.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Standard Checks.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="Code\Board Data.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Code\Load Board.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\Base Algorithm.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\Standard Algorithm.h">
-      <Filter>Headers</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Code\Run Program.h">
-      <Filter>Headers</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Standard Algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Standard Checks.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Code\Board Data.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="Code\Base Algorithm.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Standard Checks.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="Code\Board Data.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Code\Load Board.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\Base Algorithm.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\Standard Algorithm.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Code\Run Program.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Standard Algorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Standard Checks.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
